@@ -3,10 +3,12 @@
 #options(repos = r)
 
 install.packages("e1071")
-install.packages('caTools') 
+install.packages('caTools')
+install.packages("corrplot")
 library(caTools) 
 require(e1071) #Contains the SVM 
 library(tidyverse)
+library(corrplot)
 
 #getting data from excel
 data <- read.csv("C:/Users/patron/Desktop/DataPMyosemitestation.csv")
