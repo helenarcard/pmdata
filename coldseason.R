@@ -1,6 +1,6 @@
-r = getOption("repos")
-r["CRAN"] = "http://cran.us.r-project.org"
-options(repos = r)
+#r = getOption("repos")
+#r["CRAN"] = "http://cran.us.r-project.org"
+#options(repos = r)
 
 install.packages("ggplot2")
 install.packages("GGally")
@@ -8,12 +8,11 @@ install.packages("psych")
 install.packages("Hmisc")
 install.packages("corrplot")
 library(tidyverse)
-library(readxl)
 library(Hmisc)
 library(corrplot)
 
 #loading data
-datacold <- read_excel("C:/Users/patron/Desktop/coldseasondatacollectionmastersheet.xlsx", sheet = 1)
+datacold <- read.csv("C:/Users/patron/Desktop/coldseasonpmdata.csv")
 head(datacold)
 my_data3 <- (datacold[7:15])
 #scatterplot matrix 

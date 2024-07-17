@@ -1,8 +1,12 @@
+#r = getOption("repos")
+#r["CRAN"] = "http://cran.us.r-project.org"
+#options(repos = r)
+
 install.packages("neuralnet")
 library(tidyverse)
 library(neuralnet)
 
-data <- read_excel("C:/Users/patron/Desktop/noblanksdatacollectionmastersheet.xlsx", sheet = 1)
+data <- read.csv("C:/Users/patron/Desktop/DataPMyosemitestation.csv")
 head(data)
 PMdata <- (data[7:15])
 PMdata1 <- (PMdata %>% drop_na())
@@ -24,10 +28,10 @@ print(nn)
 plot(nn)
 
 # Make predictions on test data
-predicted <- round(predict(nn, Test))
+#predicted <- round(predict(nn, Test))
 
 # Evaluate the model
-confusion_matrix <- table(predicted, Test$PMTWO)
-accuracy <- sum(diag(confusion_matrix)) / sum(confusion_matrix)
-print(confusion_matrix)
-print(paste("Accuracy:", accuracy))
+#confusion_matrix <- table(predicted, Test$PMTWO)
+#accuracy <- sum(diag(confusion_matrix)) / sum(confusion_matrix)
+#print(confusion_matrix)
+#print(paste("Accuracy:", accuracy))

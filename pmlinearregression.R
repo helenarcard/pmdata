@@ -1,18 +1,17 @@
-r = getOption("repos")
-r["CRAN"] = "http://cran.us.r-project.org"
-options(repos = r)
+#r = getOption("repos")
+#r["CRAN"] = "http://cran.us.r-project.org"
+#options(repos = r)
 install.packages("ggplot2")
 install.packages("GGally")
 install.packages("psych")
 install.packages("Hmisc")
 install.packages("corrplot")
 library(tidyverse)
-library(readxl)
 library(Hmisc)
 library(corrplot)
 
 #loading data
-data1 <- read_excel("C:/Users/patron/Desktop/noblanksdatacollectionmastersheet.xlsx", sheet = 1)
+data1 <- read.csv("C:/Users/patron/Desktop/DataPMyosemitestation.csv")
 head(data1)
 my_data <- (data1[7:15])
 #scatterplot matrix 
