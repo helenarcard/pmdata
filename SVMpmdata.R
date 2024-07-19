@@ -34,9 +34,14 @@ Train = subset(PMdata1, split == TRUE)
 Test = subset(PMdata1, split == FALSE) 
 
 #SVM formula 
-svm.mod = svm(formula = PMTWO ~ AWND + PRCP + TAVG + WSF2 + WSF5 + WDF2 + WDF5, 
+svm.mod = svm(formula = PMTWO ~ AWND + PRCP + TAVG + WSF2 + WDF2, 
                  data = Train, 
                  type = 'nu-regression', 
                  kernel = 'linear') 
 print(svm.mod)
-plot(svm.mod, Train)
+
+
+# Predicting the Test set results 
+y_pred = predict(svm.mod, newdata = Test)
+
+print(y_pred)

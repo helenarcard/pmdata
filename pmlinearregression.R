@@ -18,11 +18,11 @@ my_data <- (data1[7:15])
 pairs(my_data, main = "Scatterplot Matrix for PM Data")
 
 #Multiple linear regression for PM 2.5 
-pmtwo.regression <- lm(PMTWO ~ AWND + PRCP + TAVG + WDF2 + WDF5 + WSF2 + WSF5, data = data1)
+pmtwo.regression <- lm(PMTWO ~ AWND + PRCP + TAVG + WDF2 + WSF2, data = data1)
 summary(pmtwo.regression)
 
 #Multiple linear regression for PM 10 
-pmten.regression <- lm(PMTEN ~ AWND + PRCP + TAVG + WDF2 + WDF5 + WSF2 + WSF5, data = data1)
+pmten.regression <- lm(PMTEN ~ AWND + PRCP + TAVG + WDF2 + WSF2, data = data1)
 summary(pmten.regression)
 
 #compute correlation matrix 

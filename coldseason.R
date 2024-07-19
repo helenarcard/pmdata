@@ -20,10 +20,10 @@ pairs(my_data3, main = "Scatterplot Matrix for PM Data")
 
 #cold season November - April 
 #Multiple linear regression for PM 2.5 
-pmtwocold.regression <- lm(PMTWO ~ AWND + PRCP + TAVG + WDF2 + WDF5 + WSF2 + WSF5, data = datacold)
+pmtwocold.regression <- lm(PMTWO ~ AWND + PRCP + TAVG + WDF2 + WSF2, data = datacold)
 summary(pmtwocold.regression)
 
 #Multiple linear regression for PM 10 
-pmtencold.regression <- lm(PMTEN ~ AWND + PRCP + TAVG + WDF2 + WDF5 + WSF2 + WSF5, data = datacold)
+pmtencold.regression <- lm(PMTEN ~ AWND + PRCP + TAVG + WDF2 + WSF2, data = datacold)
 summary(pmtencold.regression)
 

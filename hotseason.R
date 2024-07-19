@@ -20,9 +20,9 @@ pairs(my_data2, main = "Scatterplot Matrix for PM Data")
 
 #hot season June - August 
 #Multiple linear regression for PM 2.5 
-pmtwohot.regression <- lm(PMTWO ~ AWND + PRCP + TAVG + WDF2 + WDF5 + WSF2 + WSF5, data = datahot)
+pmtwohot.regression <- lm(PMTWO ~ AWND + PRCP + TAVG + WDF2 + WSF2, data = datahot)
 summary(pmtwohot.regression)
 
 #Multiple linear regression for PM 10 
-pmtenhot.regression <- lm(PMTEN ~ AWND + PRCP + TAVG + WDF2 + WDF5 + WSF2 + WSF5, data = datahot)
+pmtenhot.regression <- lm(PMTEN ~ AWND + PRCP + TAVG + WDF2 + WSF2, data = datahot)
 summary(pmtenhot.regression)
