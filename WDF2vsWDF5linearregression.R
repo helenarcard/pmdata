@@ -1,3 +1,4 @@
+#if you get "trying to use cran without setting a mirror" error when compiling report uncomment this
 #r = getOption("repos")
 #r["CRAN"] = "http://cran.us.r-project.org"
 #options(repos = r)

@@ -1,6 +1,6 @@
-#r = getOption("repos")
-#r["CRAN"] = "http://cran.us.r-project.org"
-#options(repos = r)
+r = getOption("repos")
+r["CRAN"] = "http://cran.us.r-project.org"
+options(repos = r)
 
 install.packages("ggplot2")
 install.packages("GGally")
@@ -29,9 +29,9 @@ pmtwoWSF5.regression <- lm(PMTWO ~ WSF5, data = my_data)
 summary(pmtwoWSF5.regression)
 
 
-#Multiple linear regression for WDF2 PM 10 
+#Multiple linear regression for WSF2 PM 10 
 pmtenWSF2.regression <- lm(PMTEN ~ WSF2, data = my_data)
 summary(pmtenWSF2.regression)
-#Multiple linear regression for WDF2 PM 10 
+#Multiple linear regression for WSF5 PM 10 
 pmtenWSF5.regression <- lm(PMTEN ~ WSF5, data = my_data)
 summary(pmtenWSF5.regression)
