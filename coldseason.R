@@ -7,23 +7,29 @@ install.packages("GGally")
 install.packages("psych")
 install.packages("Hmisc")
 install.packages("corrplot")
+install.packages("e1071")
+install.packages('caTools')
+library(caTools) 
+require(e1071) #Contains the SVM
 library(tidyverse)
 library(Hmisc)
 library(corrplot)
 
-#loading data
-datacold <- read.csv("C:/Users/patron/Desktop/coldseasonpmdata.csv")
-head(datacold)
-my_data3 <- (datacold[7:15])
+#loading data cold season November - April
+dfcold <- read.csv("C:/Users/patron/Desktop/coldseasonpmdata.csv")
+head(dfcold)
+datacold <- (dfcold[7:13])
 #scatterplot matrix 
-pairs(my_data3, main = "Scatterplot Matrix for PM Data")
+pairs(datacold, main = "Scatterplot Matrix for Cold Season PM Data")
 
-#cold season November - April 
-#Multiple linear regression for PM 2.5 
-pmtwocold.regression <- lm(PMTWO ~ AWND + PRCP + TAVG + WDF2 + WSF2, data = datacold)
-summary(pmtwocold.regression)
 
-#Multiple linear regression for PM 10 
-pmtencold.regression <- lm(PMTEN ~ AWND + PRCP + TAVG + WDF2 + WSF2, data = datacold)
-summary(pmtencold.regression)
+
+#MULTIPLE LINEAR REGRESSION FOR COLD SEASON
+#MLR for PM 2.5 
+pmtwocold.mlr <- lm(PMTWO ~ AWND + PRCP + TAVG + WDF2 + WSF2, data = dfcold)
+summary(pmtwocold.mlr)
+
+#MLR for PM 10 
+pmtencold.mlr <- lm(PMTEN ~ AWND + PRCP + TAVG + WDF2 + WSF2, data = dfcold)
+summary(pmtencold.mlr)
 

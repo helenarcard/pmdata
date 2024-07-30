@@ -7,19 +7,19 @@ library(tidyverse)
 library(Hmisc)
 library(corrplot)
 
-#loading data 2015 to 2019 only 
-data1519 <- read.csv("C:/Users/patron/Desktop/2015to2019pmdata.csv")
-head(data1519)
-only_pm1519 <- (data1519[7:8])
-#summary of PM 2.5 and PM 10 columns from 2015 to 2019 
-summary(only_pm1519)
+#loading data 2015 to 2020 only 
+df <- read.csv("C:/Users/patron/Desktop/DataPMyosemitestation.csv")
+head(df)
+TrainPM <- (df[7:8])
+#summary of PM 2.5 and PM 10 columns from 2015 to 2020 
+summary(TrainPM)
 
-#loading data 2020 only 
-data20 <- read.csv("C:/Users/patron/Desktop/2020pmdata.csv")
-head(data20)
-only_pm20 <- (data20[7:8])
-#summary of PM 2.5 and PM 10 columns from 2020 
-summary(only_pm20)
+#loading data 2021 only 
+df21 <- read.csv("C:/Users/patron/Desktop/2021pmdataexcess.csv")
+head(df21)
+dataPM21 <- (df21[7:8])
+#summary of PM 2.5 and PM 10 columns from 2021 
+summary(dataPM21)
 
 #Time series plot by year 
 #TS 2015  

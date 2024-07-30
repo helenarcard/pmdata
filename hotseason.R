@@ -7,22 +7,29 @@ install.packages("GGally")
 install.packages("psych")
 install.packages("Hmisc")
 install.packages("corrplot")
+install.packages("e1071")
+install.packages('caTools')
+library(caTools) 
+require(e1071) #Contains the SVM
 library(tidyverse)
 library(Hmisc)
 library(corrplot)
 
-#loading data
-datahot <- read.csv("C:/Users/patron/Desktop/hotseasonpmdata.csv")
-head(datahot)
-my_data2 <- (datahot[7:15])
-#scatterplot matrix 
-pairs(my_data2, main = "Scatterplot Matrix for PM Data")
+#loading data hot season June - August 
+dfhot <- read.csv("C:/Users/patron/Desktop/hotseasonpmdata.csv")
+head(dfhot)
+datahot <- (dfhot[7:13])
+#scatterplot matrix hot season 
+pairs(datahot, main = "Scatterplot Matrix for Hot Season PM Data")
 
-#hot season June - August 
-#Multiple linear regression for PM 2.5 
-pmtwohot.regression <- lm(PMTWO ~ AWND + PRCP + TAVG + WDF2 + WSF2, data = datahot)
-summary(pmtwohot.regression)
 
-#Multiple linear regression for PM 10 
-pmtenhot.regression <- lm(PMTEN ~ AWND + PRCP + TAVG + WDF2 + WSF2, data = datahot)
-summary(pmtenhot.regression)
+
+#MULTIPLE LINEAR REGRESSION FOR HOT SEASON
+#MLR for PM 2.5 
+pmtwohot.mlr <- lm(PMTWO ~ AWND + PRCP + TAVG + WDF2 + WSF2, data = dfhot)
+summary(pmtwohot.mlr)
+
+#MLR for PM 10 
+pmtenhot.mlr <- lm(PMTEN ~ AWND + PRCP + TAVG + WDF2 + WSF2, data = dfhot)
+summary(pmtenhot.mlr)
+
