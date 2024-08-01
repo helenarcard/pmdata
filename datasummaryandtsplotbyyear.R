@@ -3,9 +3,12 @@
 #options(repos = r)
 install.packages("Hmisc")
 install.packages("corrplot")
+install.packages("fpp2")
 library(tidyverse)
 library(Hmisc)
 library(corrplot)
+library(ggplot2)
+library(fpp2)
 
 #loading data 2015 to 2020 only 
 df <- read.csv("C:/Users/patron/Desktop/DataPMyosemitestation.csv")

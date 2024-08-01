@@ -28,7 +28,7 @@ head(sPM21)
 nrow(sPM21)
 
 #setting seed so random can be reproduced 
-set.seed(123)
+set.seed(2)
 
 #Train data is full dataset 2015-2020, test data is 2021 dataset minus pm data 
 Train = sPMd
@@ -38,7 +38,10 @@ Test = sPM21[,-c(1,2)]
 
 #NEURAL NET FOR FULL DATASET
 #nn for PM 2.5 
-nn2 <- neuralnet(PMTWO ~ AWND + PRCP + TAVG + WDF2 + WSF2, Train, hidden = 1, linear.output = FALSE)
+nn2 <- neuralnet(PMTWO ~ AWND + PRCP + TAVG + WDF2 + WSF2, 
+                 Train, 
+                 hidden = 1, 
+                 linear.output = FALSE)
 
 #nn plot 
 plot(nn2)
@@ -48,7 +51,28 @@ y_prednn2 <- predict(nn2, newdata = Test)
 print(y_prednn2)
 
 #plotting predicted y_hat vs actual y from test data PM 2.5 values 
-plot(y_prednn2, sPM21[,1], main = "PM 2.5 VS NN Prediction for 2021", xlab = "Predicted", ylab = "Actual PM 2.5")
+plot(y_prednn2, sPM21[,1], main = "PM 2.5 VS NN Prediction 2021", xlab = "Predicted", ylab = "Actual PM 2.5", col = "royalblue3")
 
 #R SQUARED error metric -- Coefficient of Determination
 postResample(y_prednn2, sPM21[,1])
+
+
+
+#nn for PM 10 
+nn10 <- neuralnet(PMTEN ~ AWND + PRCP + TAVG + WDF2 + WSF2, 
+                  Train, 
+                  hidden = 2, 
+                  linear.output = FALSE)
+
+#nn plot 
+plot(nn10)
+
+# Make predictions on Test data
+y_prednn10 <- predict(nn10, newdata = Test)
+print(y_prednn10)
+
+#plotting predicted y_hat vs actual y from test data PM 10 values 
+plot(y_prednn10, sPM21[,2], main = "PM 10 VS NN Prediction 2021", xlab = "Predicted", ylab = "Actual PM 10", col = "coral3")
+
+#R SQUARED error metric -- Coefficient of Determination
+postResample(y_prednn10, sPM21[,2])

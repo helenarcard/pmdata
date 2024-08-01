@@ -17,8 +17,10 @@ df <- read.csv("C:/Users/patron/Desktop/DataPMyosemitestation.csv")
 head(df)
 data <- (df[7:13])
 
+set.seed(3)
+
 #scatterplot matrix
-pairs(data, main = "Scatterplot Matrix for PM Data")
+pairs(data, main = "Scatterplot Matrix for PM Data", col = "darkblue")
 
 
 
@@ -42,24 +44,25 @@ df21 <- read.csv("C:/Users/patron/Desktop/2021pmdataexcess.csv")
 head(df21)
 PMd21 <- (df21[7:13])
 head(PMd21)
-
+testPMd21 = PMd21[,-c(1,2)] 
 
 #actual MLR for PM 2.5 2021 only
 pmtwo21.mlr <- lm(PMTWO ~ AWND + PRCP + TAVG + WDF2 + WSF2, data = df)
 summary(pmtwo21.mlr)
 
 #predicting PM 2.5 2021 using object pmtwo.mlr and PMd21 data 
-y_predmlr2 = predict(pmtwo.mlr, newdata = PMd21)
+y_predmlr2 = predict(pmtwo.mlr, newdata = testPMd21)
 head(y_predmlr2)
 head(PMd21$PMTWO)
-print(y_predmlr2)
+
 
 #plotting predicted y_hat vs actual y from 2021 data PM 2.5 values 
-plot(y_predmlr2, PMd21$PMTWO, main = "Actual PM 2.5 VS MLR Prediction for 2021", xlab = "Predicted", ylab = "Actual PM 2.5")
+plot(y_predmlr2, PMd21$PMTWO, main = "Actual PM 2.5 VS MLR Prediction 2021", xlab = "Predicted", ylab = "Actual PM 2.5", col = "royalblue")
 
 
 #R SQUARED error metric -- Coefficient of Determination
 postResample(y_predmlr2, PMd21$PMTWO)
+
 
 
 #actual MLR for PM 10 2021 only 
@@ -67,16 +70,18 @@ pmten21.mlr <- lm(PMTEN ~ AWND + PRCP + TAVG + WDF2 + WSF2, data = df)
 summary(pmten21.mlr)
 
 #predicting PM 10 2021 using object pmten.mlr and PMd21 data 
-y_predmlr10 = predict(pmten.mlr, newdata = PMd21)
+y_predmlr10 = predict(pmten.mlr, newdata = testPMd21)
 head(y_predmlr10)
 head(PMd21$PMTEN)
-print(y_predmlr10)
+
 
 #plotting predicted y_hat vs actual y from 2021 data PM 10 values 
-plot(y_predmlr10, PMd21$PMTEN, main = "Actual PM 10 VS MLR Prediction for 2021", xlab = "Predicted", ylab = "Actual PM 10")
+plot(y_predmlr10, PMd21$PMTEN, main = "Actual PM 10 VS MLR Prediction for 2021", xlab = "Predicted", ylab = "Actual PM 10", col = "coral")
 
 #R SQUARED error metric -- Coefficient of Determination
 postResample(y_predmlr10, PMd21$PMTEN)
+
+
 
 
 #HEAT MAP CORRELATION MATRIX 
