@@ -19,70 +19,75 @@ library(corrplot)
 dfcold <- read.csv("C:/Users/patron/Desktop/coldseasonpmdata.csv")
 head(dfcold)
 datacold <- (dfcold[7:13])
-#preping colddata for later MLR, SVR, and NN 
-#removing na values
-#dfCOLDcn <- (datacold %>% drop_na())
-#sdfCOLD <- scale (dfCOLDcn)
-#check to make sure data looks right and number of rows is not too few 
-#head(sdfCOLD)
-#nrow(sdfCOLD)
+s.datacold<-as.data.frame(scale(datacold))
 
-#loading 2021 dataset hot season testing
-dfC21 <- read.csv("C:/Users/patron/Desktop/2021coldseason.csv")
-datacold21 <- (dfC21[7:13])
-#dfCOLD21cn <- (datacold21 %>% drop_na())
-#sdfCOLD21 <- scale(dfCOLD21cn)
-#head(sdfCOLD21)
-#nrow(sdfCOLD21)
-testdatacold21 = datacold21[,-c(1,2)]
 
-#setting seed so random can be reproduced 
-set.seed(7) 
+
+#loading 2021 dataset cold season testing
+df21cold <- read.csv("C:/Users/patron/Desktop/2021coldseason.csv")
+head(df21cold); df21cold<-df21cold[7:13]
+PMd21cold <- df21cold[complete.cases(df21cold),]
+s.PMd21cold<-as.data.frame(scale(PMd21cold))
+testdatacold21 = s.PMd21cold[,-c(1,2)]
 
 
 
 #MULTIPLE LINEAR REGRESSION FOR COLD SEASON
 #MLR for PM 2.5 
-pmtwocold.mlr <- lm(PMTWO ~ AWND + PRCP + TAVG + WDF2 + WSF2, data = dfcold)
+pmtwocold.mlr <- lm(PMTWO ~ AWND + PRCP + TAVG + WDF2 + WSF2, data = s.datacold)
 summary(pmtwocold.mlr)
 
 #MLR for PM 10 
-pmtencold.mlr <- lm(PMTEN ~ AWND + PRCP + TAVG + WDF2 + WSF2, data = dfcold)
+pmtencold.mlr <- lm(PMTEN ~ AWND + PRCP + TAVG + WDF2 + WSF2, data = s.datacold)
 summary(pmtencold.mlr)
 
 
-#predicting 2021 PM data from COLD dataset MLR
-#actual MLR for PM 2.5 2021 only
-pmtwocold21.mlr <- lm(PMTWO ~ AWND + PRCP + TAVG + WDF2 + WSF2, data = dfC21)
-summary(pmtwocold21.mlr)
 
 #predicting PM 2.5 2021 using object pmtwocold.mlr and datacold21 data 
 y_predmlr2cold = predict(pmtwocold.mlr, newdata = testdatacold21)
 head(y_predmlr2cold)
-head(datacold21$PMTWO)
 
 
 #plotting predicted y_hat vs actual y from 2021 data PM 2.5 values 
-plot(y_predmlr2cold, datacold21$PMTWO, main = "Actual PM 2.5 VS MLR Prediction 2021: COLD SEASON", xlab = "Predicted", ylab = "Actual PM 2.5", col = "royalblue")
-
+#plot(y_predmlr2cold, s.PMd21cold$PMTWO, main = "Actual PM 2.5 VS MLR Prediction 2021: COLD SEASON", xlab = "Predicted", ylab = "Actual PM 2.5", col = "royalblue")
+plot(s.PMd21cold$PMTWO, y_predmlr2cold, xlab = "Actual", ylab = "Predicted PM2.5", xlim=c(-1,1), ylim=c(-1,1), col = "royalblue")
+abline(0,1)
 
 #R SQUARED error metric -- Coefficient of Determination
-postResample(y_predmlr2cold, datacold21$PMTWO)
+y<-s.PMd21cold$PMTWO; p<-y_predmlr2cold
+R2<-sum((y-mean(y))*(p-mean(p)))/(273*sd(y)*sd(p))
+MSE<-sum((y-p)^2)/273
+MAE<-sum(abs(y-p))/273
+PA<-sum((p-mean(p))^2)/sum((y-mean(y))^2)
+IA<- 1 - sum((p-mean(p))^2)/sum((abs(p-mean(p)) + abs(y-mean(y)))^2)
+print(R2)
+print(MSE) 
+print(MAE) 
+print(PA) 
+print(IA)
 
 
-
-#actual MLR for PM 10 2021 only 
-pmtencold21.mlr <- lm(PMTEN ~ AWND + PRCP + TAVG + WDF2 + WSF2, data = dfC21)
-summary(pmtencold21.mlr)
 
 #predicting PM 10 2021 using object pmtencold.mlr and datacold21 data 
 y_predmlr10cold = predict(pmtencold.mlr, newdata = testdatacold21)
 head(y_predmlr10cold)
-head(datacold21$PMTEN)
+
 
 #plotting predicted y_hat vs actual y from 2021 data PM 10 values 
-plot(y_predmlr10cold, datacold21$PMTEN, main = "Actual PM 10 VS MLR Prediction for 2021: COLD SEASON", xlab = "Predicted", ylab = "Actual PM 10", col = "coral")
+#plot(y_predmlr10cold, s.PMd21cold$PMTEN, main = "Actual PM 10 VS MLR Prediction for 2021: COLD SEASON", xlab = "Predicted", ylab = "Actual PM 10", col = "coral")
+plot(s.PMd21cold$PMTEN, y_predmlr10cold, xlab = "Actual", ylab = "Predicted PM 10", xlim=c(-1,1), ylim=c(-1,1), col = "coral")
+abline(0,1)
 
 #R SQUARED error metric -- Coefficient of Determination
-postResample(y_predmlr10cold, datacold21$PMTEN)
+y<-s.PMd21cold$PMTEN; p<-y_predmlr10cold
+R2<-sum((y-mean(y))*(p-mean(p)))/(273*sd(y)*sd(p))
+MSE<-sum((y-p)^2)/273
+MAE<-sum(abs(y-p))/273
+PA<-sum((p-mean(p))^2)/sum((y-mean(y))^2)
+IA<- 1 - sum((p-mean(p))^2)/sum((abs(p-mean(p)) + abs(y-mean(y)))^2)
+print(R2)
+print(MSE) 
+print(MAE) 
+print(PA) 
+print(IA)
 

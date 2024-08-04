@@ -16,70 +16,70 @@ library(corrplot)
 df <- read.csv("C:/Users/patron/Desktop/DataPMyosemitestation.csv")
 head(df)
 data <- (df[7:13])
-
-set.seed(3)
+s.data<-as.data.frame(scale(data))
 
 #scatterplot matrix
 pairs(data, main = "Scatterplot Matrix for PM Data", col = "darkblue")
 
 
-
-
 #MULTIPLE LINEAR REGRESSION FOR WHOLE DATASET
 #MLR for PM 2.5 
-pmtwo.mlr <- lm(PMTWO ~ AWND + PRCP + TAVG + WDF2 + WSF2, data = df)
+pmtwo.mlr <- lm(PMTWO ~ AWND + PRCP + TAVG + WDF2 + WSF2, data = s.data)
 summary(pmtwo.mlr)
 
 #MLR for PM 10 
-pmten.mlr <- lm(PMTEN ~ AWND + PRCP + TAVG + WDF2 + WSF2, data = df)
+pmten.mlr <- lm(PMTEN ~ AWND + PRCP + TAVG + WDF2 + WSF2, data = s.data)
 summary(pmten.mlr)
-
-
-
 
 
 #predicting 2021 PM data from Full dataset MLR
 #loading data 2021 only 
 df21 <- read.csv("C:/Users/patron/Desktop/2021pmdataexcess.csv")
-head(df21)
-PMd21 <- (df21[7:13])
-head(PMd21)
-testPMd21 = PMd21[,-c(1,2)] 
+head(df21); df21<-df21[7:13]
+PMd21 <- df21[complete.cases(df21),]
+s.PMd21<-as.data.frame(scale(PMd21))
 
-#actual MLR for PM 2.5 2021 only
-pmtwo21.mlr <- lm(PMTWO ~ AWND + PRCP + TAVG + WDF2 + WSF2, data = df)
-summary(pmtwo21.mlr)
 
 #predicting PM 2.5 2021 using object pmtwo.mlr and PMd21 data 
-y_predmlr2 = predict(pmtwo.mlr, newdata = testPMd21)
-head(y_predmlr2)
-head(PMd21$PMTWO)
-
+y_predmlr2 = predict(pmtwo.mlr, newdata = s.PMd21)
 
 #plotting predicted y_hat vs actual y from 2021 data PM 2.5 values 
-plot(y_predmlr2, PMd21$PMTWO, main = "Actual PM 2.5 VS MLR Prediction 2021", xlab = "Predicted", ylab = "Actual PM 2.5", col = "royalblue")
-
+plot(s.PMd21$PMTWO, y_predmlr2, xlab = "Actual", ylab = "Predicted PM2.5", xlim=c(-1,1), ylim=c(-1,1), col = "royalblue")
+abline(0,1)
 
 #R SQUARED error metric -- Coefficient of Determination
-postResample(y_predmlr2, PMd21$PMTWO)
-
-
-
-#actual MLR for PM 10 2021 only 
-pmten21.mlr <- lm(PMTEN ~ AWND + PRCP + TAVG + WDF2 + WSF2, data = df)
-summary(pmten21.mlr)
+y<-s.PMd21$PMTWO; p<-y_predmlr2
+R2<-sum((y-mean(y))*(p-mean(p)))/(273*sd(y)*sd(p))
+MSE<-sum((y-p)^2)/273
+MAE<-sum(abs(y-p))/273
+PA<-sum((p-mean(p))^2)/sum((y-mean(y))^2)
+IA<- 1 - sum((p-mean(p))^2)/sum((abs(p-mean(p)) + abs(y-mean(y)))^2)
+print(R2)
+print(MSE) 
+print(MAE) 
+print(PA) 
+print(IA)
 
 #predicting PM 10 2021 using object pmten.mlr and PMd21 data 
-y_predmlr10 = predict(pmten.mlr, newdata = testPMd21)
-head(y_predmlr10)
-head(PMd21$PMTEN)
-
+y_predmlr10 = predict(pmten.mlr, newdata = s.PMd21)
 
 #plotting predicted y_hat vs actual y from 2021 data PM 10 values 
-plot(y_predmlr10, PMd21$PMTEN, main = "Actual PM 10 VS MLR Prediction for 2021", xlab = "Predicted", ylab = "Actual PM 10", col = "coral")
+plot(s.PMd21$PMTEN, y_predmlr10, xlab = "Actual", ylab = "Predicted PM10", xlim=c(-1,1), ylim=c(-1,1), col = "coral")
+abline(0,1)
 
 #R SQUARED error metric -- Coefficient of Determination
-postResample(y_predmlr10, PMd21$PMTEN)
+y<-s.PMd21$PMTEN; p<-y_predmlr10
+R2<-sum((y-mean(y))*(p-mean(p)))/(273*sd(y)*sd(p))
+MSE<-sum((y-p)^2)/273
+MAE<-sum(abs(y-p))/273
+PA<-sum((p-mean(p))^2)/sum((y-mean(y))^2)
+IA<- 1 - sum((p-mean(p))^2)/sum((abs(p-mean(p)) + abs(y-mean(y)))^2)
+print(R2)
+print(MSE) 
+print(MAE) 
+print(PA) 
+print(IA)
+
 
 
 

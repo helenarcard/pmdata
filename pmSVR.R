@@ -16,12 +16,9 @@ library(corrplot)
 #loading full dataset for training 
 df <- read.csv("C:/Users/patron/Desktop/DataPMyosemitestation.csv")
 head(df)
-#specifying columns 
 data <- (df[7:13])
-#removing na values
 PMd <- (data %>% drop_na())
 sPMd <- scale(PMd)
-#check to make sure data looks right and number of rows is not too few 
 head(sPMd)
 nrow(sPMd)
 
@@ -54,14 +51,25 @@ print(svm.mod2)
 #Predicting the Test set results (y_hat value)
 y_predsvm2 = predict(svm.mod2, newdata = Test)
 
-print(y_predsvm2)
+head(y_predsvm2)
 
 #plotting predicted y_hat vs actual y from test data PM 2.5 values 
 plot(y_predsvm2, sPM21[,1], main = "PM 2.5 VS SVM Prediction 2021", xlab = "Predicted", ylab = "Actual PM 2.5", col = "royalblue3")
+plot(sPM21[,1], y_predsvm2, xlab = "Actual", ylab = "Predicted PM 2.5", xlim=c(-1,1), ylim=c(-1,1), col = "royalblue")
+abline(0,1)
 
 #R SQUARED error metric -- Coefficient of Determination
-postResample(y_predsvm2, sPM21[,1])
-
+y<-sPM21[,1]; p<-y_predsvm2
+R2<-sum((y-mean(y))*(p-mean(p)))/(273*sd(y)*sd(p))
+MSE<-sum((y-p)^2)/273
+MAE<-sum(abs(y-p))/273
+PA<-sum((p-mean(p))^2)/sum((y-mean(y))^2)
+IA<- 1 - sum((p-mean(p))^2)/sum((abs(p-mean(p)) + abs(y-mean(y)))^2)
+print(R2)
+print(MSE) 
+print(MAE) 
+print(PA) 
+print(IA)
 
 
 #SVM for PM 10
@@ -75,11 +83,23 @@ print(svm.mod10)
 #Predicting the Test set results (y_hat value)
 y_predsvm10 = predict(svm.mod10, newdata = Test)
 
-print(y_predsvm10)
+head(y_predsvm10)
 
 #plotting predicted y_hat vs actual y from test data PM 10 values 
 plot(y_predsvm10, sPM21[,2], main = "PM 10 VS SVM Prediction 2021", xlab = "Predicted", ylab = "Actual PM 10", col = "coral2")
+plot(sPM21[,2], y_predsvm10, xlab = "Actual", ylab = "Predicted PM 10", xlim=c(-1,1), ylim=c(-1,1), col = "coral")
+abline(0,1)
 
 #R SQUARED error metric -- Coefficient of Determination
-postResample(y_predsvm10, sPM21[,2])
+y<-sPM21[,2]; p<-y_predsvm10
+R2<-sum((y-mean(y))*(p-mean(p)))/(273*sd(y)*sd(p))
+MSE<-sum((y-p)^2)/273
+MAE<-sum(abs(y-p))/273
+PA<-sum((p-mean(p))^2)/sum((y-mean(y))^2)
+IA<- 1 - sum((p-mean(p))^2)/sum((abs(p-mean(p)) + abs(y-mean(y)))^2)
+print(R2)
+print(MSE) 
+print(MAE) 
+print(PA) 
+print(IA)
 

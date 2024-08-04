@@ -48,14 +48,25 @@ plot(nn2)
 
 # Make predictions on Test data
 y_prednn2 <- predict(nn2, newdata = Test)
-print(y_prednn2)
+head(y_prednn2)
 
 #plotting predicted y_hat vs actual y from test data PM 2.5 values 
 plot(y_prednn2, sPM21[,1], main = "PM 2.5 VS NN Prediction 2021", xlab = "Predicted", ylab = "Actual PM 2.5", col = "royalblue3")
+plot(sPM21[,1], y_prednn2, xlab = "Actual", ylab = "Predicted PM2.5", xlim=c(-1,1), ylim=c(-1,1), col = "royalblue")
+abline(0,1)
 
 #R SQUARED error metric -- Coefficient of Determination
-postResample(y_prednn2, sPM21[,1])
-
+y<-sPM21[,1]; p<-y_prednn2
+R2<-sum((y-mean(y))*(p-mean(p)))/(273*sd(y)*sd(p))
+MSE<-sum((y-p)^2)/273
+MAE<-sum(abs(y-p))/273
+PA<-sum((p-mean(p))^2)/sum((y-mean(y))^2)
+IA<- 1 - sum((p-mean(p))^2)/sum((abs(p-mean(p)) + abs(y-mean(y)))^2)
+print(R2)
+print(MSE) 
+print(MAE) 
+print(PA) 
+print(IA)
 
 
 #nn for PM 10 
@@ -69,10 +80,23 @@ plot(nn10)
 
 # Make predictions on Test data
 y_prednn10 <- predict(nn10, newdata = Test)
-print(y_prednn10)
+head(y_prednn10)
 
 #plotting predicted y_hat vs actual y from test data PM 10 values 
 plot(y_prednn10, sPM21[,2], main = "PM 10 VS NN Prediction 2021", xlab = "Predicted", ylab = "Actual PM 10", col = "coral3")
+plot(sPM21[,2], y_prednn10, xlab = "Actual", ylab = "Predicted PM 10", xlim=c(-1,1), ylim=c(-1,1), col = "coral")
+abline(0,1)
 
 #R SQUARED error metric -- Coefficient of Determination
-postResample(y_prednn10, sPM21[,2])
+y<-sPM21[,2]; p<-y_prednn10
+R2<-sum((y-mean(y))*(p-mean(p)))/(273*sd(y)*sd(p))
+MSE<-sum((y-p)^2)/273
+MAE<-sum(abs(y-p))/273
+PA<-sum((p-mean(p))^2)/sum((y-mean(y))^2)
+IA<- 1 - sum((p-mean(p))^2)/sum((abs(p-mean(p)) + abs(y-mean(y)))^2)
+print(R2)
+print(MSE) 
+print(MAE) 
+print(PA) 
+print(IA)
+
